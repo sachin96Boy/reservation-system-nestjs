@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   reservations:
     build:
@@ -11,6 +9,29 @@ services:
       - '3000:3000'
     volumes:
       - .:/usr/src/app
+    env_file:
+      - ./apps/reservations/.env
+    depends_on:
+      - mongo
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./apps/auth/Dockerfile
+      target: development
+    command: pnpm run start:dev auth
+    ports:
+     - '3001:3001'
+    volumes:
+     - .:/usr/src/app
+    env_file:
+      - ./apps/auth/.env
+    
+  
   mongo:
     image: mongo
+
+
     
+    
+

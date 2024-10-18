@@ -8,6 +8,9 @@ import {
   ReservationSchema,
 } from './models/reservation.schema';
 import { LoggerModule } from '@app/common';
+import { ConfigModule } from '@nestjs/config';
+
+import * as Joi from 'joi';
 
 @Module({
   imports: [
@@ -19,6 +22,14 @@ import { LoggerModule } from '@app/common';
       },
     ]),
     LoggerModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        MONGODB_URI: Joi.string().required(),
+        PORT: Joi.number().required(),
+      }),
+      envFilePath: '.env',
+    }),
   ],
   controllers: [ReservationsController],
   providers: [ReservationsService, ReservationRepository],
