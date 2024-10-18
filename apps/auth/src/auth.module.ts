@@ -7,11 +7,10 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import * as Joi from 'joi';
+import { LocalStrategie } from './strategies/local.strategy';
 
 @Module({
   imports: [
-    UsersModule,
-    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
@@ -21,7 +20,11 @@ import * as Joi from 'joi';
         PORT: Joi.number().required(),
       }),
       envFilePath: '.env',
+      cache: true,
+      expandVariables: true,
     }),
+    UsersModule,
+    LoggerModule,
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
@@ -34,6 +37,6 @@ import * as Joi from 'joi';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, LocalStrategie],
 })
 export class AuthModule {}
