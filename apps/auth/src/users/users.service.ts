@@ -3,6 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 
 import * as bcrypt from 'bcryptjs';
+import { GetUserDTO } from './dto/get-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -15,6 +16,17 @@ export class UsersService {
     });
   }
 
+  private async validateCreatedUsrDto(createUserDto: CreateUserDto) {
+    try {
+      await this.userRepository.findOne({ email: createUserDto.email });
+
+      throw new UnauthorizedException('Email already exists');
+    } catch (err) {
+      console.log(err);
+      return;
+    }
+  }
+
   async validateUser(email: string, password: string) {
     const user = await this.userRepository.findOne({ email });
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -22,5 +34,9 @@ export class UsersService {
       throw new UnauthorizedException('Invalid password');
     }
     return user;
+  }
+
+  async getUser(getUserDto: GetUserDTO) {
+    return this.userRepository.findOne(getUserDto);
   }
 }
