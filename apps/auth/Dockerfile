@@ -15,7 +15,7 @@ COPY . .
 # COPY libs libs
 
 
-RUN pnpm run build auth
+RUN pnpm run build 
 
 FROM node:alpine As production
 

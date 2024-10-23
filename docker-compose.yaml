@@ -7,8 +7,8 @@ services:
     command: pnpm run start:dev reservations
     ports:
       - '3000:3000'
-    volumes:
-      - .:/usr/src/app
+    # volumes:
+    #   - .:/usr/src/app
     env_file:
       - ./apps/reservations/.env
 
@@ -20,8 +20,8 @@ services:
     command: pnpm run start:dev auth
     ports:
      - '3001:3001'
-    volumes:
-     - .:/usr/src/app
+    # volumes:
+    #  - .:/usr/src/app
     env_file:
       - ./apps/auth/.env
     
