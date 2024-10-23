@@ -2,16 +2,20 @@ FROM node:alpine As development
 
 WORKDIR /usr/src/app
 
-COPY package.json ./
-COPY pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml tsconfig.json nest-cli.json ./
 
 RUN npm install -g pnpm
 
+
 RUN pnpm install
 
-COPY . .
 
-RUN pnpm run build
+COPY . .
+# COPY apps/auth apps/auth
+# COPY libs libs
+
+
+RUN pnpm run build auth
 
 FROM node:alpine As production
 
@@ -25,7 +29,7 @@ COPY pnpm-lock.yaml ./
 
 RUN npm install -g pnpm
 
-RUN pnpm install --production
+RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 

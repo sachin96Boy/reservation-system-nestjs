@@ -1,0 +1,5 @@
+MONGODB_URI=mongodb://<< serviceName >>:27017/reserve
+JWT_SECRET=<< secret >>
+JWT_EXPIRATION_TIME=3600
+HTTP_PORT=3001
+TCP_PORT=3002

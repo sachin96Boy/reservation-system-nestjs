@@ -1,0 +1,4 @@
+MONGODB_URI=mongodb://<< serviceName >>:27017/reserve
+PORT=3000
+AUTH_HOST=auth
+AUTH_PORT=3002

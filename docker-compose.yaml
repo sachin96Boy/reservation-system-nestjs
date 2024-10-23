@@ -11,8 +11,6 @@ services:
       - .:/usr/src/app
     env_file:
       - ./apps/reservations/.env
-    depends_on:
-      - mongo
 
   auth:
     build:
