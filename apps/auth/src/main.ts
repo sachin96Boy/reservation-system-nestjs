@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AuthModule } from './auth.module';
 import { ValidationPipe } from '@nestjs/common';
-import { PinoLogger } from 'nestjs-pino';
+import { Logger } from 'nestjs-pino';
 import { ConfigService } from '@nestjs/config';
 import * as cookieParser from 'cookie-parser';
 import { Transport } from '@nestjs/microservices';
@@ -25,7 +25,7 @@ async function bootstrap() {
     }),
   );
 
-  app.useLogger(app.get(PinoLogger));
+  app.useLogger(app.get(Logger));
 
   app.use(cookieParser());
 
