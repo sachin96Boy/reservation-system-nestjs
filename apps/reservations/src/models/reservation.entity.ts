@@ -10,7 +10,7 @@ export class Reservation extends AbstractEntity<Reservation> {
   @Column()
   endDate: Date;
   @Column()
-  userId: string;
+  userId: number;
   @Column()
   invoiceId: string;
 }

@@ -1,7 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class GetUserDTO {
+export class GetUserDto {
   @IsString()
   @IsNotEmpty()
-  _id: string;
+  id: number;
 }

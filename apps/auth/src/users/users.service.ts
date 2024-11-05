@@ -3,22 +3,26 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UsersRepository } from './users.repository';
 
 import * as bcrypt from 'bcryptjs';
-import { GetUserDTO } from './dto/get-user.dto';
+import { GetUserDto } from './dto/get-user.dto';
+import { User } from './models/user.entity';
+import { Role } from './models/role.entity';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    this.userRepository.create({
+    const user = new User({
       ...createUserDto,
       password: await bcrypt.hash(createUserDto.password, 10),
+      roles: createUserDto.roles?.map((roleDto) => new Role(roleDto)),
     });
+    this.userRepository.create(user);
   }
 
-  private async validateCreatedUsrDto(createUserDto: CreateUserDto) {
+  private async validateCreatedUsrDto(createUser: CreateUserDto) {
     try {
-      await this.userRepository.findOne({ email: createUserDto.email });
+      await this.userRepository.findOne({ email: createUser.email });
 
       throw new UnauthorizedException('Email already exists');
     } catch (err) {
@@ -36,7 +40,7 @@ export class UsersService {
     return user;
   }
 
-  async getUser(getUserDto: GetUserDTO) {
+  async getUser(getUserDto: GetUserDto) {
     return this.userRepository.findOne(getUserDto);
   }
 }

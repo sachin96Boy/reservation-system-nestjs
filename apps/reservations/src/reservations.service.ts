@@ -23,7 +23,7 @@ export class ReservationsService {
             ...createReservationDto,
             invoiceId: res.id,
             timestamp: new Date(),
-            userId: userId,
+            userId: +userId,
           });
           return this.reservationsRepository.create(reservation);
         }),
