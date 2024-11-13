@@ -6,12 +6,11 @@ COPY package.json pnpm-lock.yaml tsconfig.json nest-cli.json ./
 
 RUN npm install -g pnpm
 
-
 RUN pnpm install
 
 
 COPY . .
-# COPY apps/auth apps/auth
+# COPY apps/reservations apps/reservations
 # COPY libs libs
 
 
@@ -33,4 +32,4 @@ RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/apps/auth/main.js"]
+CMD ["node", "dist/apps/notifications/main.js"]
